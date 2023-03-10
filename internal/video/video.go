@@ -2,6 +2,7 @@ package video
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/url"
@@ -61,7 +62,7 @@ func DownloadArticleVideo(ctx context.Context,
 		return err
 	}
 	if articleInfo.Data.Info.Video.ID == "" {
-		return  nil
+		return nil
 	}
 	playAuth, err := client.VideoPlayAuth(articleInfo.Data.Info.ID, sourceType, articleInfo.Data.Info.Video.ID)
 	if err != nil {
@@ -131,7 +132,22 @@ func downloadAliyunVodEncryptVideo(ctx context.Context,
 		return err
 	}
 	decryptKey := crypto.GetAESDecryptKey(clientRand, playInfo.Rand, playInfo.Plaintext)
-	return download(ctx, grabClient, tsURLPrefix, videoTitle, projectDir, tsFileNames, []byte(decryptKey), playInfo.Size, AliyunVodEncrypt, concurrency)
+
+	repeat := 0
+RETRY:
+	err = download(ctx, grabClient, tsURLPrefix, videoTitle, projectDir, tsFileNames, []byte(decryptKey), playInfo.Size, AliyunVodEncrypt, concurrency)
+	if err != nil && !errors.Is(err, context.Canceled) {
+		fmt.Fprintf(os.Stderr, "An error occurred: %v\n", err.Error())
+		println()
+		repeat++
+		if repeat > 3 {
+			return err
+		}
+		time.Sleep(time.Second * 3)
+		goto RETRY
+	}
+
+	return err
 }
 
 // DownloadMP4 ...
@@ -203,6 +219,7 @@ func download(ctx context.Context,
 	// check each response
 	for resp := range respch {
 		if err := resp.Err(); err != nil {
+			bar.Finish()
 			return err
 		}
 		addBarValue(bar, resp.BytesComplete())
