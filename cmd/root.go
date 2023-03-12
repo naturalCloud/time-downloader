@@ -393,6 +393,14 @@ func handleDownloadAll(ctx context.Context) {
 					projectDir,
 					a.AID,
 					concurrency)
+
+				if len(articleInfo.Data.InlineVideoSubtitles) > 0 {
+					videoURLs := make([]string, len(articleInfo.Data.InlineVideoSubtitles))
+					for i, v := range articleInfo.Data.InlineVideoSubtitles {
+						videoURLs[i] = v.VideoURL
+					}
+					err = video.DownloadMP4(ctx, grabClient, a.Title, projectDir, videoURLs)
+				}
 			}
 
 			if needDownloadAudio {
@@ -424,7 +432,7 @@ func handleDownloadAll(ctx context.Context) {
 }
 
 func increasePDFCount(total int, i *int) {
-	(*i)++
+	*i++
 	fmt.Printf("\r已完成下载%d/%d", *i, total)
 }
 
