@@ -3,12 +3,12 @@ module github.com/nicoxiang/geektime-downloader
 go 1.18
 
 require (
-	github.com/JohannesKaufmann/html-to-markdown v1.3.6
+	github.com/JohannesKaufmann/html-to-markdown v1.3.7
 	github.com/briandowns/spinner v1.23.0
 	github.com/cavaliergopher/grab/v3 v3.0.1
 	github.com/cheggaaa/pb/v3 v3.1.2
 	github.com/chromedp/cdproto v0.0.0-20230220211738-2b1ec77315c9
-	github.com/chromedp/chromedp v0.8.8
+	github.com/chromedp/chromedp v0.9.1
 	github.com/chzyer/readline v1.5.1
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/google/uuid v1.3.0
@@ -16,7 +16,7 @@ require (
 )
 
 require (
-	github.com/PuerkitoBio/goquery v1.8.0 // indirect
+	github.com/PuerkitoBio/goquery v1.8.1 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/chromedp/sysutil v1.0.0 // indirect
@@ -31,9 +31,9 @@ require (
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/stretchr/testify v1.7.1 // indirect
-	golang.org/x/net v0.7.0 // indirect
+	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/term v0.5.0 // indirect
+	golang.org/x/term v0.6.0 // indirect
 )
 
 require (
