@@ -2,6 +2,7 @@ package markdown
 
 import (
 	"context"
+	"github.com/88250/lute"
 	"os"
 	"path"
 	"path/filepath"
@@ -17,8 +18,9 @@ import (
 )
 
 var (
-	converter *md.Converter
-	imgRegexp = regexp.MustCompile(`!\[(.*?)]\((.*?)\)`)
+	converter    *md.Converter
+	luteMdEngine *lute.Lute
+	imgRegexp    = regexp.MustCompile(`!\[(.*?)]\((.*?)\)`)
 )
 
 // MDExtension ...
@@ -44,6 +46,8 @@ func Download(ctx context.Context, grabClient *grab.Client, html, title, dir str
 	}
 	// step1: convert to md string
 	markdown, err := getDefaultConverter().ConvertString(html)
+	// md engine lute
+	// markdown, err := luteHtml2ToMd(html)
 	if err != nil {
 		return err
 	}
@@ -90,6 +94,13 @@ func getDefaultConverter() *md.Converter {
 		converter = md.NewConverter("", true, nil)
 	}
 	return converter
+}
+
+func luteHtml2ToMd(md string) (string, error) {
+	if luteMdEngine == nil {
+		luteMdEngine = lute.New()
+	}
+	return luteMdEngine.HTML2Markdown(md)
 }
 
 func writeImageFile(ctx context.Context,
