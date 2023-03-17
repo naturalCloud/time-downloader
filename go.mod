@@ -3,6 +3,7 @@ module github.com/nicoxiang/geektime-downloader
 go 1.18
 
 require (
+	github.com/88250/lute v1.7.5
 	github.com/JohannesKaufmann/html-to-markdown v1.3.7
 	github.com/briandowns/spinner v1.23.0
 	github.com/cavaliergopher/grab/v3 v3.0.1
@@ -16,7 +17,6 @@ require (
 )
 
 require (
-	github.com/88250/lute v1.7.5 // indirect
 	github.com/PuerkitoBio/goquery v1.8.1 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/alecthomas/chroma v0.10.0 // indirect
